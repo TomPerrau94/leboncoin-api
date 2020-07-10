@@ -53,28 +53,28 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
             // return res.status(200).json(pictureUploaded);
             // Création d'une nouvelle offre en BDD
             const newOffer = new Offer({
-              created: new Date(),
-              creator: req.user,
-              description: description,
-              picture: pictureUploaded,
-              price: price,
               title: title,
+              description: description,
+              price: price,
+              picture: pictureUploaded,
+              creator: req.user,
+              created: new Date(),
             });
 
             await newOffer.save();
 
             // Réponse au client
             return res.status(200).json({
-              created: new Date(),
+              _id: newOffer._id,
+              title: title,
+              description: description,
+              price: price,
+              picture: pictureUploaded,
               creator: {
                 account: newOffer.creator.account,
                 _id: newOffer.creator._id,
               },
-              description: description,
-              picture: pictureUploaded,
-              price: price,
-              title: title,
-              _id: newOffer._id,
+              created: new Date(),
             });
           }
         }
