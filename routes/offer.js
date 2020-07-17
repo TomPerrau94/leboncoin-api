@@ -8,8 +8,8 @@ const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: "tomp",
-  api_key: "698318671966588",
-  api_secret: "jrOkj2or4Tobewqorf1vRq2c8WQ",
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 // Publier une annonce
