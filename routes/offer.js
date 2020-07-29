@@ -157,11 +157,11 @@ router.get("/offer/with-count", async (req, res) => {
         offers: offers,
       });
     }
-    // Par défaut, on limite l'affichage à 2 annonces par page
+    // Par défaut, on limite l'affichage à 3 annonces par page
     else {
       const offers = await Offer.find(filters)
         .skip((page - 1) * 2)
-        .limit(2)
+        .limit(3)
         .sort(sorting)
         .populate({
           path: "creator",
