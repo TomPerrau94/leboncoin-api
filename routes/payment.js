@@ -19,7 +19,7 @@ router.post("/payment", async (req, res) => {
     amount: req.fields.price,
     currency: "eur",
     description: `Paiement leboncoin pour ${req.fields.title}`,
-    source: req.fields.stripeToken,
+    source: req.fields.token,
   });
   console.log(response.status);
 
