@@ -8,14 +8,11 @@ const Transaction = require("../models/Transaction");
 
 // Procéder au paiement pour une annonce
 router.post("/payment", async (req, res) => {
-  // Réception du token créé depuis le Front
-  const stripeToken = req.fields.stripeToken;
-
   // Création de la transaction
   const response = await stripe.charges.create({
     amount: req.fields.price,
     currency: "eur",
-    source: stripeToken,
+    source: req.fields.stripeToken,
   });
   console.log(response.status);
 
