@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
+const formidableMiddleware = require("express-formidable");
+router.use(formidableMiddleware());
 
 const User = require("../models/User");
 const Offer = require("../models/Offer");
@@ -12,6 +14,7 @@ router.post("/payment", async (req, res) => {
   const response = await stripe.charges.create({
     amount: req.fields.price,
     currency: "eur",
+    description: `Paiement leboncoin pour ${req.fields.title}`,
     source: req.fields.stripeToken,
   });
   console.log(response.status);
