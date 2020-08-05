@@ -16,7 +16,7 @@ const Transaction = require("../models/Transaction");
 router.post("/payment", async (req, res) => {
   // Création de la transaction
   const response = await stripe.charges.create({
-    amount: req.fields.price,
+    amount: req.fields.amount,
     currency: "eur",
     description: `Paiement leboncoin pour ${req.fields.title}`,
     source: req.fields.token,
