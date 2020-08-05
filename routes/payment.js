@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
+const createStripe = require("stripe");
 const formidableMiddleware = require("express-formidable");
-const cors = require("cors");
-
-router.use(cors());
-
 router.use(formidableMiddleware());
+
+const stripe = createStripe(process.env.STRIPE_API_SECRET);
 
 const User = require("../models/User");
 const Offer = require("../models/Offer");
@@ -14,16 +12,21 @@ const Transaction = require("../models/Transaction");
 
 // Procéder au paiement pour une annonce
 router.post("/payment", async (req, res) => {
-  // Création de la transaction
-  const response = await stripe.charges.create({
-    amount: req.fields.amount,
-    currency: "eur",
-    description: `Paiement leboncoin pour ${req.fields.title}`,
-    source: req.fields.token,
-  });
-  console.log(response.status);
+  try {
+    const response = await stripe.charges.create({
+      amount: req.fields.amount,
+      currency: "eur",
+      description: `Paiement leboncoin pour ${req.fields.title}`,
+      source: req.fields.token,
+    });
+    console.log(response.status);
 
-  res.json(response);
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).end();
+  }
+  // Création de la transaction
 
   // // Création d'une nouvelle transaction en BDD
   // const newTransaction = new Transaction({
