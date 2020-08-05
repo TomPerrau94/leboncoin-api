@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
 const formidableMiddleware = require("express-formidable");
+const cors = require("cors");
+
+router.use(cors());
+
 router.use(formidableMiddleware());
 
 const User = require("../models/User");
